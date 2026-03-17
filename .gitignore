@@ -1,0 +1,80 @@
+# -----------------------------------------------------------------------------
+# MiniWireshark - Git ignore (Java / Maven / Spring Boot)
+# -----------------------------------------------------------------------------
+
+# --- Build output ---
+target/
+build/
+out/
+*.class
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+
+# --- Maven ---
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+.mvn/target/
+
+# --- IDE ---
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+*.swp
+*.swo
+*~
+.project
+.classpath
+.settings/
+.factorypath
+
+# --- OS ---
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# --- Logs & temp ---
+*.log
+*.tmp
+*.temp
+*.bak
+*.cache
+logs/
+temp/
+tmp/
+
+# --- Spring Boot ---
+spring-boot-devtools.properties
+.springBeans
+application-local.properties
+application-local.yml
+
+# --- Environment / secrets ---
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+secrets/
+credentials/
+
+# --- JNA cache (native libs, regenerated at runtime) ---
+*.dylib
+*.so
+*.dll
+
+# --- Package Files ---
+*.nar
+*.nar
