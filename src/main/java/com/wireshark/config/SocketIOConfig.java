@@ -20,6 +20,7 @@ public class SocketIOConfig {
         config.setHostname("0.0.0.0");
         config.setPort(socketPort);
         config.setOrigin("*");
+        config.getSocketConfig().setReuseAddress(true);
 
         server = new SocketIOServer(config);
         server.start();
