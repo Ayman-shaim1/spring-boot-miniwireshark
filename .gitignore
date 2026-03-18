@@ -55,6 +55,9 @@ logs/
 temp/
 tmp/
 
+# --- H2 Database ---
+data/
+
 # --- Spring Boot ---
 spring-boot-devtools.properties
 .springBeans

@@ -1,7 +1,9 @@
 package com.wireshark.service;
 
 import com.wireshark.broadcast.PacketBroadcaster;
+import com.wireshark.entity.PacketHistory;
 import com.wireshark.model.PacketSummary;
+import com.wireshark.repository.PacketHistoryRepository;
 import org.pcap4j.core.*;
 import org.pcap4j.packet.IpV4Packet;
 import org.pcap4j.packet.IpV6Packet;
@@ -10,6 +12,7 @@ import org.pcap4j.packet.TcpPacket;
 import org.pcap4j.packet.UdpPacket;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
@@ -18,9 +21,11 @@ import java.util.stream.Collectors;
 public class PacketCaptureService {
 
     private final PacketBroadcaster broadcaster;
+    private final PacketHistoryRepository packetHistoryRepository;
 
-    public PacketCaptureService(PacketBroadcaster broadcaster) {
+    public PacketCaptureService(PacketBroadcaster broadcaster, PacketHistoryRepository packetHistoryRepository) {
         this.broadcaster = broadcaster;
+        this.packetHistoryRepository = packetHistoryRepository;
     }
 
     private PcapHandle handle;
@@ -127,6 +132,13 @@ public class PacketCaptureService {
         PacketSummary summary = new PacketSummary(
                 packetCounter.incrementAndGet(), protocol, srcIp, dstIp, srcPort, dstPort, packet.length(), info);
         broadcaster.broadcast(summary);
+        packetHistoryRepository.save(toHistory(summary));
+    }
+
+    private PacketHistory toHistory(PacketSummary s) {
+        Instant capturedAt = Instant.now();
+        return new PacketHistory(s.getNo(), s.getTimestamp(), capturedAt, s.getProtocol(), s.getSrcIp(), s.getDstIp(),
+                s.getSrcPort(), s.getDstPort(), s.getLength(), s.getInfo());
     }
 
     private String buildTcpInfo(org.pcap4j.packet.TcpPacket.TcpHeader header, int srcPort, int dstPort, int payloadLen) {
